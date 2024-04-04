@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 
 class ContactDetailScreen extends StatelessWidget {
   final String name;
@@ -15,55 +16,82 @@ class ContactDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 200),
-        child: Center(
-          child: Card(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(name),
-                const SizedBox(
-                  height: 100,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: Stack(
+        children: [
+          Image.asset(
+            'assets/background.jpg',
+            height: double.infinity,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 100, 20, 450),
+              child: Card(
+                color: Colors.white.withOpacity(0.2),
+                child: Column(
                   children: [
-                    Card(
-                      child: SizedBox(
-                        height: 80,
-                        width: 130,
-                        child: Column(
-                          children: [const Text('Phone number'), Text(phone)],
+                    const Gap(20),
+                    Text(name,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    const Gap(5),
+                    Text(phone,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 1)),
+                    const Gap(40),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Card(
+                        color: Colors.white.withOpacity(0.7),
+                        child: SizedBox(
+                          height: 100,
+                          width: 500,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Address',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                              const Gap(10),
+                              Text(address)
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Card(
-                      child: SizedBox(
-                        height: 80,
-                        width: 130,
-                        child: Column(
-                          children: [const Text('Address'), Text(address)],
+                    const Gap(10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Card(
+                        color: Colors.white.withOpacity(0.7),
+                        child: SizedBox(
+                          height: 100,
+                          width: 500,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Email',
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold)),
+                              const Gap(5),
+                              Text(email)
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                    Card(
-                      child: SizedBox(
-                        height: 80,
-                        width: 130,
-                        child: Column(
-                          children: [const Text('Email'), Text(email)],
-                        ),
-                      ),
-                    )
                   ],
-                )
-              ],
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

@@ -3,10 +3,11 @@ import 'package:conatact_api/service/contact_services.dart';
 import 'package:flutter/material.dart';
 
 class ContactProvider extends ChangeNotifier {
+  bool onHover = false;
   final nameController = TextEditingController();
-    final phoneController = TextEditingController();
-    final emailController = TextEditingController();
-    final addressController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final addressController = TextEditingController();
   List<ContactModel> contacts = [];
 
   Future<void> fetchContacts(BuildContext context) async {
@@ -34,28 +35,36 @@ class ContactProvider extends ChangeNotifier {
     }
   }
 
-  Future<bool> updateContact(String id, String name, String phone,String address,String email) async {
+  Future<bool> updateContact(String id, String name, String phone,
+      String address, String email) async {
     try {
-      await ContactServices.updateContact(id, name, phone,address,email);
+      await ContactServices.updateContact(id, name, phone, address, email);
       return true;
     } catch (e) {
       return false;
     }
   }
 
-  Future<bool> submitContact(String name, String phone,String address,String email) async {
+  Future<bool> submitContact(
+      String name, String phone, String address, String email) async {
     try {
-      await ContactServices.submitContact(name, phone,address,email);
+      await ContactServices.submitContact(name, phone, address, email);
       return true;
     } catch (e) {
       return false;
     }
   }
+
   void clearControllers() {
     nameController.clear();
     phoneController.clear();
     addressController.clear();
     emailController.clear();
+    notifyListeners();
+  }
+
+  void onHovervalue(bool value) {
+    onHover = value;
     notifyListeners();
   }
 }
