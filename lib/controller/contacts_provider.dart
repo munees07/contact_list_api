@@ -62,9 +62,4 @@ class ContactProvider extends ChangeNotifier {
     emailController.clear();
     notifyListeners();
   }
-
-  void onHovervalue(bool value) {
-    onHover = value;
-    notifyListeners();
-  }
 }

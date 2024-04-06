@@ -27,7 +27,7 @@ class ContactDetailScreen extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 100, 20, 450),
+              padding: const EdgeInsets.fromLTRB(20, 100, 20, 250),
               child: Card(
                 color: Colors.white.withOpacity(0.2),
                 child: Column(

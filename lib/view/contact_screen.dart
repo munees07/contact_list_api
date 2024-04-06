@@ -1,4 +1,5 @@
 import 'package:conatact_api/controller/contacts_provider.dart';
+import 'package:conatact_api/controller/search_provider.dart';
 import 'package:conatact_api/view/add_screen.dart';
 import 'package:conatact_api/widgets/contact_list_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,7 @@ class ContactScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final searchProvider = Provider.of<SearchProvider>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
           title: const Row(
@@ -38,17 +40,49 @@ class ContactScreen extends StatelessWidget {
                 height: double.infinity,
                 width: double.infinity,
                 fit: BoxFit.cover),
-            FutureBuilder(
-              future: fetchContactData(context),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error:${snapshot.error}'));
-                } else {
-                  return buildContactList(context);
-                }
-              },
+            Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                  child: TextFormField(
+                    onChanged: (value) {
+                      searchProvider.contactSearch = value;
+                      searchProvider.contactSearchResult(context);
+                    },
+                    decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.search),
+                        hintText: 'search contact'),
+                  ),
+                ),
+                Expanded(
+                  child: FutureBuilder(
+                    future: fetchContactData(context),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error:${snapshot.error}'));
+                      } else {
+                        return Consumer2<SearchProvider, ContactProvider>(
+                            builder: (context, searchprovider, contactprovider,
+                                child) {
+                          return SizedBox(
+                              child: searchProvider.contactSearch.isNotEmpty
+                                  ? searchProvider.filteredContact.isEmpty
+                                      ? const Center(
+                                          child: Text('no items found'),
+                                        )
+                                      : buildContactList(context,
+                                          searchProvider.filteredContact)
+                                  : buildContactList(
+                                      context, contactprovider.contacts));
+                        });
+                      }
+                    },
+                  ),
+                ),
+              ],
             ),
           ],
         ),

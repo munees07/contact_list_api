@@ -92,6 +92,7 @@ class ContactAddScreen extends StatelessWidget {
     if (contact != null) {
       await provider.updateContact(contact!.id, name, phone, address, email);
       provider.clearControllers();
+      Navigator.pop(context);
     } else {
       await provider.submitContact(name, phone, address, email);
       provider.clearControllers();
